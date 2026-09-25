@@ -1,9 +1,17 @@
 import SwiftUI
 
-@main struct MyApp: App {
+@main
+struct MobDevlosKinoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FilmListView(viewModel: Self.makeViewModel())
         }
+    }
+
+    private static func makeViewModel() -> FilmListViewModel {
+        let service: FilmListServiceProtocol = MockFilmListService()
+        let repository: FilmListRepository = FilmListRepositoryImpl(service: service)
+        let useCase: GetFilmListUseCase = GetFilmListUseCaseImpl(repository: repository)
+        return FilmListViewModel(getFilmList: useCase)
     }
 }
