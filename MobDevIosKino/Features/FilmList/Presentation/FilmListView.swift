@@ -2,25 +2,27 @@ import SwiftUI
 
 struct FilmListView: View {
     @StateObject private var viewModel: FilmListViewModel
+    let onSelectFilm: (Int) -> Void
 
-    init(viewModel: @autoclosure @escaping () -> FilmListViewModel) {
+    init(
+        viewModel: @autoclosure @escaping () -> FilmListViewModel,
+        onSelectFilm: @escaping (Int) -> Void
+    ) {
         _viewModel = StateObject(wrappedValue: viewModel())
+        self.onSelectFilm = onSelectFilm
     }
 
     var body: some View {
-        NavigationStack {
-            content
-                .navigationTitle("Фильмы")
-                .task {
-                    await viewModel.load()
-                }
-        }
+        content
+            .navigationTitle("Фильмы")
+            .task {
+                await viewModel.load()
+            }
     }
 
     @ViewBuilder
     private var content: some View {
         switch viewModel.state {
-
         case .loading:
             ProgressView("Загрузка...")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -29,7 +31,12 @@ struct FilmListView: View {
             ScrollView {
                 LazyVStack(spacing: 12) {
                     ForEach(films) { film in
-                        FilmListOneElemView(film: film)
+                        Button {
+                            onSelectFilm(film.id)
+                        } label: {
+                            FilmListOneElemView(film: film)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding()
@@ -52,16 +59,4 @@ struct FilmListView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
-}
-
-#Preview {
-    FilmListView(
-        viewModel: FilmListViewModel(
-            getFilmList: GetFilmListUseCaseImpl(
-                repository: FilmListRepositoryImpl(
-                    service: MockFilmListService()
-                )
-            )
-        )
-    )
 }
