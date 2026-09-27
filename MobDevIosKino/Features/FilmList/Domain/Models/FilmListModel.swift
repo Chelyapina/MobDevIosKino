@@ -1,4 +1,4 @@
-import Foundation
+import Foundation // системные типы данных
 
 struct FilmListModel: Identifiable, Equatable {
     let id: Int

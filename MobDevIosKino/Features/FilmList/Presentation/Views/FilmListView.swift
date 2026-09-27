@@ -1,9 +1,10 @@
 import SwiftUI
 
 struct FilmListView: View {
-    @StateObject private var viewModel: FilmListViewModel
+    @StateObject private var viewModel: FilmListViewModel // сохранить объект независимо от пересоздания структуры view
     let onSelectFilm: (Int) -> Void
 
+    //?
     init(
         viewModel: @autoclosure @escaping () -> FilmListViewModel,
         onSelectFilm: @escaping (Int) -> Void
@@ -11,6 +12,7 @@ struct FilmListView: View {
         _viewModel = StateObject(wrappedValue: viewModel())
         self.onSelectFilm = onSelectFilm
     }
+    
 
     var body: some View {
         content

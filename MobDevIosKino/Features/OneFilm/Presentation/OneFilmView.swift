@@ -2,6 +2,7 @@ import SwiftUI
 
 struct OneFilmView: View {
     let filmId: Int
+    let  onShowFunFact: () -> Void
 
     var body: some View {
         ZStack {
@@ -21,19 +22,44 @@ struct OneFilmView: View {
                     .font(.title3)
                     .foregroundColor(.secondary)
                     .monospacedDigit()
+
+                Button {
+                    onShowFunFact()
+                } label: {
+                    HStack(spacing: 10) {
+                        Image(systemName: "sparkles")
+                            .font(.system(size: 15, weight: .semibold))
+
+                        Text("Interesting fact")
+                            .font(.custom("Montserrat-SemiBold", size: 16))
+
+                        Spacer()
+
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 13, weight: .semibold))
+                    }
+                    .foregroundStyle(Color(red: 0.72, green: 0.22, blue: 0.40))
+                    .padding(.horizontal, 18)
+                    .frame(height: 54)
+                    .background(
+                        Color(red: 1.0, green: 0.93, blue: 0.95)
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                }
+                .buttonStyle(.plain)
             }
             .padding(40)
-            .background(Color(.systemBackground))
+            //.background(Color(.systemBackground))
             .cornerRadius(20)
             .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 4)
         }
         .navigationTitle("Детали")
-        .navigationBarTitleDisplayMode(.inline)
+        //.navigationBarTitleDisplayMode(.inline)
     }
 }
 
-#Preview {
+/*#Preview {
     NavigationStack {
-        OneFilmView(filmId: 263531)
+        OneFilmView(filmId: 263531, )
     }
-}
+ */

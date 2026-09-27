@@ -14,8 +14,15 @@ struct RootView: View {
             .navigationDestination(for: AppRoute.self) { route in
                 switch route {
                 case .filmDetail(let id):
-                    OneFilmView(filmId: id)
+                    OneFilmView(
+                        filmId: id,
+                        onShowFunFact: {router.push(.funFact(id: id))
+                        })
+
+                case .funFact(let id):
+                    FunFactView(viewModel: Self.makeFunFactViewModel(filmId: id))
                 }
+
             }
         }
     }
@@ -25,6 +32,13 @@ struct RootView: View {
         let repository: FilmListRepository = FilmListRepositoryImpl(service: service)
         let useCase: GetFilmListUseCase = GetFilmListUseCaseImpl(repository: repository)
         return FilmListViewModel(getFilmList: useCase)
+    }
+
+    private static func makeFunFactViewModel(filmId: Int) -> FunFactViewModel {
+        let service: NetworkService = NetworkServiceImpl(apiKey: "...")
+        let repository: FilmFactsRepository = FilmFactsRepositoryImpl(service: service)
+        let useCase: GetFilmFactsUseCase = GetFilmFactsUseCaseImpl(repository: repository)
+        return FunFactViewModel(getFilmFacts: useCase, filmId: filmId)
     }
 }
 

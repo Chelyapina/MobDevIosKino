@@ -10,7 +10,7 @@ struct FilmListOneElemView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(film.title)
                     .font(.headline)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.primary) //
                     .lineLimit(2)
 
                 HStack(spacing: 6) {
@@ -38,7 +38,7 @@ struct FilmListOneElemView: View {
         }
         .frame(height: 122)
         .padding()
-        .background(Color(.systemBackground))
+        //.background(Color(.systemBackground))
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
     }

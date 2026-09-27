@@ -1,8 +1,7 @@
-import Foundation
-import Combine
+import Foundation // для работы с ошибками
+import Combine // для observable
 
-@MainActor
-final class FilmListViewModel: ObservableObject {
+@MainActor  final class FilmListViewModel: ObservableObject {
 
     enum State: Equatable {
         case loading
