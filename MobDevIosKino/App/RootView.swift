@@ -1,14 +1,14 @@
 import SwiftUI
 
 struct RootView: View {
-    @StateObject private var router = AppRouter()
-
+    @StateObject private var router = AppRouter() //в экземпляре класса можно следить за path
+    
     var body: some View {
         NavigationStack(path: $router.path) {
             FilmListView(
                 viewModel: Self.makeFilmListViewModel(),
                 onSelectFilm: { id in
-                    router.push(.filmDetail(id: id))
+                    router.push(.filmDetail(id: id)) // callback для view + "Добавь маршрут на экран деталей"
                 }
             )
             .navigationDestination(for: AppRoute.self) { route in
@@ -18,22 +18,22 @@ struct RootView: View {
                         filmId: id,
                         onShowFunFact: {router.push(.funFact(id: id))
                         })
-
+                    
                 case .funFact(let id):
                     FunFactView(viewModel: Self.makeFunFactViewModel(filmId: id))
                 }
-
+                
             }
         }
     }
-
+    
     private static func makeFilmListViewModel() -> FilmListViewModel {
         let service: FilmListServiceProtocol = MockFilmListService()
         let repository: FilmListRepository = FilmListRepositoryImpl(service: service)
         let useCase: GetFilmListUseCase = GetFilmListUseCaseImpl(repository: repository)
         return FilmListViewModel(getFilmList: useCase)
     }
-
+    
     private static func makeFunFactViewModel(filmId: Int) -> FunFactViewModel {
         let service: NetworkService = NetworkServiceImpl(apiKey: "...")
         let repository: FilmFactsRepository = FilmFactsRepositoryImpl(service: service)

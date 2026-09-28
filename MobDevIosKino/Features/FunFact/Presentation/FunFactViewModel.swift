@@ -9,7 +9,7 @@ import Combine // для observable
         case error(String)
     }
 
-    @Published private(set) var state: State = .loading
+    @Published private(set) var state: State = .loading // private - для setter
 
     private let getFilmFacts: GetFilmFactsUseCase
     private let filmId: Int

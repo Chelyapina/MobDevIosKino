@@ -4,7 +4,6 @@ struct FilmListView: View {
     @StateObject private var viewModel: FilmListViewModel // сохранить объект независимо от пересоздания структуры view
     let onSelectFilm: (Int) -> Void
 
-    //?
     init(
         viewModel: @autoclosure @escaping () -> FilmListViewModel,
         onSelectFilm: @escaping (Int) -> Void

@@ -3,7 +3,7 @@ import Combine
 
 @MainActor
 final class AppRouter: ObservableObject {
-    @Published var path: [AppRoute] = []    // стэк экранов
+    @Published var path: [AppRoute] = []    // стэк экранов; об изменении path сообщается подписчикам
 
     func push(_ route: AppRoute) {
         path.append(route)

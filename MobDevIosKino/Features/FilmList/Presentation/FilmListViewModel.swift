@@ -18,7 +18,7 @@ import Combine // для observable
     }
 
     func load() async {
-        guard case .loading = state else { return }
+        guard case .loading = state else { return } // pattern matching
         await fetch()
     }
 
