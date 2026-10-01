@@ -16,9 +16,38 @@ struct FilmListView: View {
     var body: some View {
         content
             .navigationTitle("Фильмы")
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button {
+                        Task { await viewModel.forceReload() }
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                    .disabled(isLoading)
+
+                    Button(role: .destructive) {
+                        Task { await viewModel.clearAll() }
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                    .disabled(isClearDisabled)
+                }
+            }
             .task {
                 await viewModel.load()
             }
+    }
+
+    private var isLoading: Bool {
+        if case .loading = viewModel.state { return true }
+        return false
+    }
+
+    private var isClearDisabled: Bool {
+        if case .loaded(let films) = viewModel.state, films.isEmpty {
+            return true
+        }
+        return false
     }
 
     @ViewBuilder
@@ -29,35 +58,62 @@ struct FilmListView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
 
         case .loaded(let films):
-            ScrollView {
-                LazyVStack(spacing: 12) {
-                    ForEach(films) { film in
-                        Button {
-                            onSelectFilm(film.id)
-                        } label: {
-                            FilmListOneElemView(film: film)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-                .padding()
+            if films.isEmpty {
+                emptyState
+            } else {
+                listContent(films)
             }
 
         case .error(let message):
-            VStack(spacing: 12) {
-                Image(systemName: "exclamationmark.triangle")
-                    .font(.largeTitle)
-                    .foregroundColor(.orange)
-                Text(message)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.secondary)
-                Button("Повторить") {
-                    Task { await viewModel.retry() }
+            errorContent(message)
+        }
+    }
+
+    private func listContent(_ films: [FilmListModel]) -> some View {
+        ScrollView {
+            LazyVStack(spacing: 12) {
+                ForEach(films) { film in
+                    Button {
+                        onSelectFilm(film.id)
+                    } label: {
+                        FilmListOneElemView(film: film)
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.borderedProminent)
             }
             .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+    }
+
+    private var emptyState: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "film.stack")
+                .font(.largeTitle)
+                .foregroundColor(.secondary)
+            Text("Список пуст")
+                .foregroundColor(.secondary)
+            Button("Загрузить") {
+                Task { await viewModel.forceReload() }
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private func errorContent(_ message: String) -> some View {
+        VStack(spacing: 12) {
+            Image(systemName: "exclamationmark.triangle")
+                .font(.largeTitle)
+                .foregroundColor(.orange)
+            Text(message)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.secondary)
+            Button("Повторить") {
+                Task { await viewModel.retry() }
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
