@@ -1,14 +1,28 @@
 import Foundation
 
 final class FilmListRepositoryImpl: FilmListRepository {
-    private let service: FilmListServiceProtocol
+    private let remote: FilmListServiceProtocol
+    private let local: FilmLocalStore
 
-    init(service: FilmListServiceProtocol) {
-        self.service = service
+    init(remote: FilmListServiceProtocol, local: FilmLocalStore) {
+        self.remote = remote
+        self.local = local
     }
 
     func fetchFilms() async throws -> [FilmListModel] {
-        let response = try await service.getFilms()
-        return response.toDomain()
+        if let cached = try? await local.fetchAll(), !cached.isEmpty {
+            return cached
+        }
+
+        let dtos = try await remote.getFilms()
+        let films = dtos.toDomain()
+
+        try? await local.save(films)
+
+        return films
+    }
+
+    func clearCache() async throws {
+        try await local.deleteAll()
     }
 }
