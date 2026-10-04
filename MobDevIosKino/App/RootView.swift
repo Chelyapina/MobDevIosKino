@@ -18,10 +18,10 @@ struct RootView: View {
                 case .filmDetail(let id):
                     OneFilmView(
                         filmId: id,
+                        viewModel: Self.makeOneFilmViewModel(),
                         onShowFunFact: {
                             router.push(.funFact(id: id))
-                        }
-                    )
+                        }                    )
 
                 case .funFact(let id):
                     FunFactView(viewModel: Self.makeFunFactViewModel(filmId: id))
@@ -29,6 +29,8 @@ struct RootView: View {
             }
         }
     }
+    
+    //STATIC FACTORY??
 
     private static func makeFilmListViewModel(container: ModelContainer) -> FilmListViewModel {
         let remote: FilmListServiceProtocol = MockFilmListService()
@@ -49,7 +51,13 @@ struct RootView: View {
         let service: NetworkService = NetworkServiceImpl(apiKey: "...")
         let repository: FilmFactsRepository = FilmFactsRepositoryImpl(service: service)
         let useCase: GetFilmFactsUseCase = GetFilmFactsUseCaseImpl(repository: repository)
-        return FunFactViewModel(getFilmFacts: useCase, filmId: filmId)
+        let settings: UserDefaultsSettings = UserDefaultsSettings()
+        return FunFactViewModel(getFilmFacts: useCase, filmId: filmId, settings: settings)
+    }
+    
+    private static func makeOneFilmViewModel() -> OneFilmViewModel {
+        let settings: UserDefaultsSettings = UserDefaultsSettings()
+        return OneFilmViewModel(settings: settings)
     }
 }
 
