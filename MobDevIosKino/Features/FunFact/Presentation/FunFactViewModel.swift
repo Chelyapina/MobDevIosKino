@@ -3,18 +3,18 @@ import Combine // для observable
 
 @MainActor final class FunFactViewModel: ObservableObject {
     
-    enum State: Equatable {
-        case loading
-        case loaded(FunFactModel)
-        case error(String)
-    }
-    
     @Published private(set) var state: State = .loading // private - для setter
     
     private let getFilmFacts: GetFilmFactsUseCase
     private let filmId: Int
     
     private let settings: UserDefaultsSettings
+    
+    enum State: Equatable {
+        case loading
+        case loaded(FunFactModel)
+        case error(String)
+    }
     
     init(getFilmFacts: GetFilmFactsUseCase, filmId: Int, settings: UserDefaultsSettings) {
         self.getFilmFacts = getFilmFacts

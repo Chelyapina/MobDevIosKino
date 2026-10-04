@@ -17,8 +17,7 @@ struct RootView: View {
                 switch route {
                 case .filmDetail(let id):
                     OneFilmView(
-                        filmId: id,
-                        viewModel: Self.makeOneFilmViewModel(),
+                        viewModel: Self.makeOneFilmViewModel(filmId: id),
                         onShowFunFact: {
                             router.push(.funFact(id: id))
                         }                    )
@@ -48,16 +47,20 @@ struct RootView: View {
     }
 
     private static func makeFunFactViewModel(filmId: Int) -> FunFactViewModel {
-        let service: NetworkService = NetworkServiceImpl(apiKey: "...")
+        let service: NetworkService = NetworkServiceImpl(apiKey: "e46a05b2-b874-4127-8a3c-68cac31c2fb7")
         let repository: FilmFactsRepository = FilmFactsRepositoryImpl(service: service)
         let useCase: GetFilmFactsUseCase = GetFilmFactsUseCaseImpl(repository: repository)
         let settings: UserDefaultsSettings = UserDefaultsSettings()
         return FunFactViewModel(getFilmFacts: useCase, filmId: filmId, settings: settings)
     }
     
-    private static func makeOneFilmViewModel() -> OneFilmViewModel {
+    private static func makeOneFilmViewModel(filmId: Int) -> OneFilmViewModel {
         let settings: UserDefaultsSettings = UserDefaultsSettings()
-        return OneFilmViewModel(settings: settings)
+        let service: NetworkService = NetworkServiceImpl(apiKey: "e46a05b2-b874-4127-8a3c-68cac31c2fb7")
+        let repository: OneFilmRepository = OneFilmRepositoryImpl(service: service)
+        let getOneFilm: GetOneFilmUseCase = GetOneFilmUseCaseImpl(repository: repository)
+        
+        return OneFilmViewModel(settings: settings, filmId: filmId, getOneFilm: getOneFilm)
     }
 }
 
