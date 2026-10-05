@@ -4,7 +4,8 @@ import SwiftData
 struct RootView: View {
     @StateObject private var router = AppRouter()
     let container: ModelContainer
-
+    
+    
     var body: some View {
         NavigationStack(path: $router.path) {
             FilmListView(
@@ -20,17 +21,22 @@ struct RootView: View {
                         viewModel: Self.makeOneFilmViewModel(filmId: id),
                         onShowFunFact: {
                             router.push(.funFact(id: id))
-                        }                    )
-
+                        }, onShowViewedFacts:  {router.push(.viewedFacts)})
+                    
                 case .funFact(let id):
-                    FunFactView(viewModel: Self.makeFunFactViewModel(filmId: id))
+                    FunFactView(viewModel: Self.makeFunFactViewModel(filmId: id, container: container))
+                    
+                case .viewedFacts:
+                    ViewedFactsView(
+                        viewModel: Self.makeViewedFactsViewModel(container: container)
+                    )
                 }
             }
         }
     }
     
     //STATIC FACTORY??
-
+    
     private static func makeFilmListViewModel(container: ModelContainer) -> FilmListViewModel {
         let remote: FilmListServiceProtocol = MockFilmListService()
         let local: FilmLocalStore = SwiftDataFilmStore(context: container.mainContext)
@@ -45,13 +51,31 @@ struct RootView: View {
             clearFilmList: clearUseCase
         )
     }
-
-    private static func makeFunFactViewModel(filmId: Int) -> FunFactViewModel {
+    
+    private static func makeFunFactViewModel(filmId: Int, container: ModelContainer) -> FunFactViewModel {
+        let storage = ViewedFunFactStorage(
+            context: container.mainContext
+        )
+        let viewedRepository: ViewedFunFactRepository =
+        ViewedFunFactRepositoryImpl(
+            storage: storage
+        )
+        
+        let saveViewedFact: SaveViewedFunFactUseCase =
+        SaveViewedFunFactUseCaseImpl(
+            repository: viewedRepository
+        )
+        
+        let getViewedFacts: GetViewedFactsUseCase =
+        GetViewedFactsUseCaseImpl(
+            repository: viewedRepository
+        )
+        
         let service: NetworkService = NetworkServiceImpl(apiKey: "e46a05b2-b874-4127-8a3c-68cac31c2fb7")
         let repository: FilmFactsRepository = FilmFactsRepositoryImpl(service: service)
         let useCase: GetFilmFactsUseCase = GetFilmFactsUseCaseImpl(repository: repository)
         let settings: UserDefaultsSettings = UserDefaultsSettings()
-        return FunFactViewModel(getFilmFacts: useCase, filmId: filmId, settings: settings)
+        return FunFactViewModel(getFilmFacts: useCase, filmId: filmId, settings: settings, saveViewedFact: saveViewedFact, getViewedFacts: getViewedFacts)
     }
     
     private static func makeOneFilmViewModel(filmId: Int) -> OneFilmViewModel {
@@ -62,8 +86,29 @@ struct RootView: View {
         
         return OneFilmViewModel(settings: settings, filmId: filmId, getOneFilm: getOneFilm)
     }
+    
+    
+    private static func makeViewedFactsViewModel(
+        container: ModelContainer
+    ) -> ViewedFactsViewModel {
+        let storage = ViewedFunFactStorage(
+            context: container.mainContext
+        )
+        
+        let repository: ViewedFunFactRepository =
+        ViewedFunFactRepositoryImpl(
+            storage: storage
+        )
+        
+        let getViewedFacts: GetViewedFactsUseCase =
+        GetViewedFactsUseCaseImpl(
+            repository: repository
+        )
+        
+        return ViewedFactsViewModel(
+            getViewedFacts: getViewedFacts
+        )
+    }
 }
 
-#Preview {
-    RootView(container: try! ModelContainer(for: CachedFilm.self))
-}
+

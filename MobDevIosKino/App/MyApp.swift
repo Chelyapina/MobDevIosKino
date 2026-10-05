@@ -2,12 +2,15 @@ import SwiftUI
 import SwiftData
 
 @main
-struct MobDevlosKinoApp: App {
+struct MobDevIosKinoApp: App {
     let container: ModelContainer
 
     init() {
         do {
-            container = try ModelContainer(for: CachedFilm.self)
+            container = try ModelContainer(
+                for: CachedFilm.self,
+                ViewedFunFact.self
+            )
         } catch {
             fatalError("Не удалось создать ModelContainer: \(error)")
         }

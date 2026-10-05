@@ -1,4 +1,4 @@
-import SwiftUI
+import SwiftUI // ПОПРОБОВАТЬ СДЕЛАТЬ UI-KIT!!
 
 struct FunFactView: View {
     
@@ -37,7 +37,7 @@ struct FunFactView: View {
             
         case .loaded(let fact):
             Text(fact.text)
-                .font(.system(size: 18, design: .rounded))
+                .font(AppFont.regular(18))
                 .foregroundStyle(.primary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
