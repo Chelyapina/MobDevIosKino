@@ -1,4 +1,5 @@
-import UIKit
+internal import UIKit
+
 class FunFactVC : UIViewController {
     
     let factText = UILabel()

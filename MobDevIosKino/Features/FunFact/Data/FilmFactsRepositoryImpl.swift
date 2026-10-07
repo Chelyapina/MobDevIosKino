@@ -1,4 +1,5 @@
 import Foundation
+internal import UIKit
 
 final class FilmFactsRepositoryImpl: FilmFactsRepository {
     private let service: NetworkService
