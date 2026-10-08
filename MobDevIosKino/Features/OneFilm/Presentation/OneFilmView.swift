@@ -3,12 +3,12 @@ import SwiftUI
 struct OneFilmView: View {
     @StateObject private var viewModel: OneFilmViewModel
 
-    let onShowFunFact: () -> Void
+    let onShowFunFact: (String) -> Void
     let onShowViewedFacts: () -> Void
 
     init(
         viewModel: @autoclosure @escaping() -> OneFilmViewModel,
-        onShowFunFact: @escaping () -> Void,
+        onShowFunFact: @escaping (String) -> Void,
         onShowViewedFacts: @escaping () -> Void
     ) {
         _viewModel = StateObject(wrappedValue: viewModel())
@@ -120,9 +120,9 @@ struct OneFilmView: View {
                 .tint(.pink)
 
                 Button {
-                    onShowFunFact()
+                    onShowFunFact(film.title)
                 } label: {
-                    Text("Interesting fact")
+                    Text("Интересный факт")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)

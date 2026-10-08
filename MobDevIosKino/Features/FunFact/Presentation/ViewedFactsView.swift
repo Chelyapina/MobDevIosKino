@@ -34,20 +34,32 @@ struct ViewedFactsView: View {
     private func factsList(
         _ facts: [ViewedFunFactModel]
     ) -> some View {
-        ScrollView {
-            LazyVStack(spacing: 16) {
-                ForEach(facts) { fact in
-                    factCard(fact)
+        List {
+            ForEach(facts) { fact in
+                factCard(fact)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            }
+            .onDelete { offsets in
+                Task {
+                    await viewModel.deleteFacts(
+                        at: offsets,    // индексы
+                        from: facts
+                    )
                 }
             }
-            .padding()
         }
+        .listStyle(.plain)
     }
 
+    
     private func factCard(
         _ fact: ViewedFunFactModel
     ) -> some View {
         VStack(alignment: .leading, spacing: 12) {
+            Text(fact.filmTitle)
+                .font(.headline)
+
             Text(fact.text)
                 .font(.body)
 
