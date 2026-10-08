@@ -3,14 +3,15 @@ import SwiftData
 
 @main
 struct MobDevIosKinoApp: App {
-    let container: ModelContainer
+    private let deps: AppDependencies
 
     init() {
         do {
-            container = try ModelContainer( //
+            let container = try ModelContainer(
                 for: CachedFilm.self,
                 ViewedFunFact.self
             )
+            self.deps = AppDependencies(container: container)
         } catch {
             fatalError("Не удалось создать ModelContainer: \(error)")
         }
@@ -18,7 +19,7 @@ struct MobDevIosKinoApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView(container: container)
+            RootView(deps: deps)
         }
     }
 }
