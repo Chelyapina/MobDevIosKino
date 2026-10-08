@@ -19,12 +19,12 @@ struct RootView: View {
                 case .filmDetail(let id):
                     OneFilmView(
                         viewModel: Self.makeOneFilmViewModel(filmId: id),
-                        onShowFunFact: {
-                            router.push(.funFact(id: id))
+                        onShowFunFact: { title in
+                            router.push(.funFact(id: id, title: title))
                         }, onShowViewedFacts:  {router.push(.viewedFacts)})
                     
-                case .funFact(let id):
-                    FunFactView(viewModel: Self.makeFunFactViewModel(filmId: id, container: container))
+                case .funFact(let id, let title):
+                    FunFactView(viewModel: Self.makeFunFactViewModel(filmId: id, filmTitle: title, container: container))
                     
                 case .viewedFacts:
                     ViewedFactsView(
@@ -52,7 +52,7 @@ struct RootView: View {
         )
     }
     
-    private static func makeFunFactViewModel(filmId: Int, container: ModelContainer) -> FunFactViewModel {
+    private static func makeFunFactViewModel(filmId: Int, filmTitle: String, container: ModelContainer) -> FunFactViewModel {
         let storage = ViewedFunFactStorage(
             context: container.mainContext
         )
@@ -75,7 +75,7 @@ struct RootView: View {
         let repository: FilmFactsRepository = FilmFactsRepositoryImpl(service: service)
         let useCase: GetFilmFactsUseCase = GetFilmFactsUseCaseImpl(repository: repository)
         let settings: UserDefaultsSettings = UserDefaultsSettings()
-        return FunFactViewModel(getFilmFacts: useCase, filmId: filmId, settings: settings, saveViewedFact: saveViewedFact, getViewedFacts: getViewedFacts)
+        return FunFactViewModel(getFilmFacts: useCase, filmId: filmId, filmTitle: filmTitle, settings: settings, saveViewedFact: saveViewedFact, getViewedFacts: getViewedFacts)
     }
     
     private static func makeOneFilmViewModel(filmId: Int) -> OneFilmViewModel {
@@ -105,8 +105,11 @@ struct RootView: View {
             repository: repository
         )
         
+        let deleteViewedFact: DeleteViewedFactUseCase = DeleteViewedFactUseCaseImpl(repository: repository)
+        
         return ViewedFactsViewModel(
-            getViewedFacts: getViewedFacts
+            getViewedFacts: getViewedFacts,
+            deleteViewedFact: deleteViewedFact
         )
     }
 }

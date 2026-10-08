@@ -12,11 +12,13 @@ final class ViewedFunFactStorage {
     // MARK: Create
     func save(
         filmId: Int,
+        filmTitle: String,
         fact: FunFactModel
     ) throws {
         let viewedFact = ViewedFunFact(
             filmId: filmId,
             text: fact.text,
+            filmTitle: filmTitle,
             type: fact.type.rawValue,
             isSpoiler: fact.isSpoiler
         )
@@ -63,7 +65,6 @@ final class ViewedFunFactStorage {
     }
 
     // MARK: Delete
-
     func delete(_ viewedFact: ViewedFunFact) throws {
         context.delete(viewedFact)
         try context.save()

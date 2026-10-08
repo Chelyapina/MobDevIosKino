@@ -7,7 +7,7 @@ struct MobDevIosKinoApp: App {
 
     init() {
         do {
-            container = try ModelContainer(
+            container = try ModelContainer( //
                 for: CachedFilm.self,
                 ViewedFunFact.self
             )

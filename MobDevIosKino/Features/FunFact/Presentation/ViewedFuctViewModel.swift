@@ -12,9 +12,11 @@ final class ViewedFactsViewModel: ObservableObject {
     @Published private(set) var state: State = .loading
 
     private let getViewedFacts: GetViewedFactsUseCase
+    private let deleteViewedFact: DeleteViewedFactUseCase
 
-    init(getViewedFacts: GetViewedFactsUseCase) {
+    init(getViewedFacts: GetViewedFactsUseCase, deleteViewedFact: DeleteViewedFactUseCase) {
         self.getViewedFacts = getViewedFacts
+        self.deleteViewedFact = deleteViewedFact
     }
 
     func load() async {
@@ -23,6 +25,26 @@ final class ViewedFactsViewModel: ObservableObject {
         do {
             let facts = try await getViewedFacts.execute()
             state = .loaded(facts)
+        } catch {
+            state = .error(error.localizedDescription)
+        }
+    }
+    
+    func deleteFacts(
+        at offsets: IndexSet,
+        from facts: [ViewedFunFactModel]
+    ) async {
+        do {
+            for index in offsets {
+                let fact = facts[index]
+
+                try await deleteViewedFact.execute(
+                    filmId: fact.filmId,
+                    text: fact.text
+                )
+            }
+
+            await load()
         } catch {
             state = .error(error.localizedDescription)
         }

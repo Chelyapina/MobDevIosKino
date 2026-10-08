@@ -15,15 +15,18 @@ import Combine // для observable
     
     private let settings: UserDefaultsSettings
     
+    private let filmTitle: String
+    
     enum State: Equatable {
         case loading
         case loaded(FunFactModel)
         case error(String)
     }
     
-    init(getFilmFacts: GetFilmFactsUseCase, filmId: Int, settings: UserDefaultsSettings,     saveViewedFact: SaveViewedFunFactUseCase, getViewedFacts: GetViewedFactsUseCase) {
+    init(getFilmFacts: GetFilmFactsUseCase, filmId: Int, filmTitle: String, settings: UserDefaultsSettings,     saveViewedFact: SaveViewedFunFactUseCase, getViewedFacts: GetViewedFactsUseCase) {
         self.getFilmFacts = getFilmFacts
         self.filmId = filmId
+        self.filmTitle = filmTitle
         self.settings = settings
         self.saveViewedFact = saveViewedFact
         self.getViewedFacts = getViewedFacts
@@ -45,7 +48,7 @@ import Combine // для observable
             let facts = try await getFilmFacts.getFacts(filmId: filmId)
 
             let fact = facts
-                .filter { fact in
+                .filter { fact in   // если нельзя показывать спойлеры - скрываем
                     fact.type == .fact &&
                     (!settings.hideSpoilers || !fact.isSpoiler)
                 }
@@ -59,8 +62,9 @@ import Combine // для observable
             state = .loaded(fact)
 
             do {
-                try await saveViewedFact.execute(
+                try await saveViewedFact.execute(   // передаём просмотренный факт на сохранение в локальное хранилище
                     filmId: filmId,
+                    filmTitle: filmTitle,
                     fact: fact
                 )
             } catch {
@@ -68,11 +72,11 @@ import Combine // для observable
             }
 
         } catch {
-            await loadViewedFact()
+            await loadViewedFact()  
         }
     }
     
-    private func loadViewedFact() async {
+    private func loadViewedFact() async {   // уже просмотренные факты, из локального хранилища
         do {
             let facts = try await getViewedFacts.execute()
 
