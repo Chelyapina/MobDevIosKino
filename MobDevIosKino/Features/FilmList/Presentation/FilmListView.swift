@@ -3,13 +3,16 @@ import SwiftUI
 struct FilmListView: View {
     @StateObject private var viewModel: FilmListViewModel // сохранить объект независимо от пересоздания структуры view
     let onSelectFilm: (Int) -> Void
+    let onOpenSearch: () -> Void
 
     init(
         viewModel: @autoclosure @escaping () -> FilmListViewModel,
-        onSelectFilm: @escaping (Int) -> Void
+        onSelectFilm: @escaping (Int) -> Void,
+        onOpenSearch: @escaping () -> Void
     ) {
         _viewModel = StateObject(wrappedValue: viewModel())
         self.onSelectFilm = onSelectFilm
+        self.onOpenSearch = onOpenSearch
     }
     
 
@@ -18,6 +21,12 @@ struct FilmListView: View {
             .navigationTitle("Фильмы")
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button {
+                        onOpenSearch()
+                    } label: {
+                        Image(systemName: "magnifyingglass")
+                    }
+                    
                     Button {
                         Task { await viewModel.forceReload() }
                     } label: {

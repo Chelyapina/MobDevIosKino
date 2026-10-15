@@ -10,6 +10,9 @@ struct RootView: View {
                 viewModel: deps.makeFilmListViewModel(),
                 onSelectFilm: { id in
                     router.push(.filmDetail(id: id))
+                },
+                onOpenSearch: {
+                    router.push(.search)
                 }
             )
             .navigationDestination(for: AppRoute.self) { route in
@@ -33,6 +36,11 @@ struct RootView: View {
                 case .viewedFacts:
                     ViewedFactsView(
                         viewModel: deps.makeViewedFactsViewModel()
+                    )
+                    
+                case .search:
+                    SearchView(
+                        makeViewModel: { deps.makeSearchViewModel() }
                     )
                 }
             }

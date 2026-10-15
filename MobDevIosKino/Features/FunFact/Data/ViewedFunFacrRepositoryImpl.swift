@@ -10,13 +10,13 @@ final class ViewedFunFactRepositoryImpl: ViewedFunFactRepository {
         filmTitle: String,
         fact: FunFactModel
     ) async throws {
-        if let viewedFact = try await storage.get(
+        if let viewedFact = try  storage.get(
             filmId: filmId,
             text: fact.text
         ) {
-            try await storage.update(viewedFact)    // обновляем дату просмотра, если уже видели факт
+            try storage.update(viewedFact)    // обновляем дату просмотра, если уже видели факт
         } else {
-            try await storage.save(     // если факт еще не просматривали
+            try  storage.save(     // если факт еще не просматривали
                 filmId: filmId,
                 filmTitle: filmTitle,
                 fact: fact
@@ -25,7 +25,7 @@ final class ViewedFunFactRepositoryImpl: ViewedFunFactRepository {
     }
     
     func getViewedFacts() async throws -> [ViewedFunFactModel] { // загрузка уже просмотренных фактов
-        let viewedFacts = try await storage.getAll()
+        let viewedFacts = try storage.getAll()
 
         return viewedFacts.enumerated().map { index, fact in
             ViewedFunFactModel(
@@ -44,13 +44,13 @@ final class ViewedFunFactRepositoryImpl: ViewedFunFactRepository {
         filmId: Int,
         text: String
     ) async throws {
-        guard let viewedFact = try await storage.get(
+        guard let viewedFact = try storage.get(
             filmId: filmId,
             text: text
         ) else {
             return
         }
 
-        try await storage.delete(viewedFact)
+        try storage.delete(viewedFact)
     }
 }
