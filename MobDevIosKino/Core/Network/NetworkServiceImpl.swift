@@ -25,6 +25,7 @@ final class NetworkServiceImpl : NetworkService { // final = класс без �
         let response: URLResponse
         do {
             (data, response) = try await session.data(for: request)
+            print(endpoint.url?.absoluteString ?? "nil")
         } catch {
             NetworkServiceImpl.logger.error("Request failed: \(error.localizedDescription)")
             throw NetworkError.noConnection

@@ -1,17 +1,31 @@
 import Foundation
 
 protocol FilmListServiceProtocol {
-    func getFilms() async throws -> FilmListResponseDTO
+    func getFilms(filters: FilmFilters) async throws -> FilmListResponseDTO
 }
 
 final class MockFilmListService: FilmListServiceProtocol {
-    func getFilms() async throws -> FilmListResponseDTO {
-        try? await Task.sleep(nanoseconds: 1_000_000_000)
+    func getFilms(filters: FilmFilters) async throws -> FilmListResponseDTO {
+        try? await Task.sleep(nanoseconds: 500_000_000)
+
+        var items = Self.mockItems
+
+        if filters.type != .all {
+            items = items.filter { $0.type == filters.type.rawValue }
+        }
+        if filters.ratingFrom > 0 {
+            items = items.filter { ($0.ratingKinopoisk ?? 0) >= filters.ratingFrom }
+        }
+
+        let pageSize = 20
+        let start = (filters.page - 1) * pageSize
+        let end = min(start + pageSize, items.count)
+        let pageItems = start < end ? Array(items[start..<end]) : []
 
         return FilmListResponseDTO(
-            total: 4,
-            totalPages: 1,
-            items: Self.mockItems
+            total: items.count,
+            totalPages: max(1, Int(ceil(Double(items.count) / Double(pageSize)))),
+            items: pageItems
         )
     }
 }

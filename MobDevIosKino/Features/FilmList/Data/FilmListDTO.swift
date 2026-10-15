@@ -12,14 +12,14 @@ struct FilmListDTO: Decodable {
     let nameRu: String?
     let nameEn: String?
     let nameOriginal: String?
-    let countries: [CountryDTO]
-    let genres: [GenreDTO]
+    let countries: [CountryDTO]?
+    let genres: [GenreDTO]?
     let ratingKinopoisk: Double?
     let ratingImdb: Double?
     let year: Int?
-    let type: String
-    let posterUrl: String
-    let posterUrlPreview: String
+    let type: String?
+    let posterUrl: String?
+    let posterUrlPreview: String?
 }
 
 struct CountryDTO: Decodable {

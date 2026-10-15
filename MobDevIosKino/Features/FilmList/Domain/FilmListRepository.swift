@@ -1,6 +1,6 @@
 import Foundation
 
 protocol FilmListRepository {
-    func fetchFilms() async throws -> [FilmListModel]
+    func fetchFilms(filters: FilmFilters) async throws -> FilmPage
     func clearCache() async throws
 }

@@ -16,7 +16,7 @@ final class AppDependencies {
 
 extension AppDependencies {
     func makeFilmListViewModel() -> FilmListViewModel {
-        let remote: FilmListServiceProtocol = MockFilmListService()
+        let remote: FilmListServiceProtocol = FilmListService(network: networkService)
         let local: FilmLocalStore = SwiftDataFilmStore(context: container.mainContext)
         let repository: FilmListRepository = FilmListRepositoryImpl(
             remote: remote,

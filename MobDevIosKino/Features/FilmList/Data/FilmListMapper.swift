@@ -8,8 +8,8 @@ extension FilmListDTO {
             originalTitle: nameOriginal,
             year: year,
             rating: ratingKinopoisk,
-            genres: genres.map(\.genre),
-            posterURL: URL(string: posterUrlPreview)
+            genres: (genres ?? []).map(\.genre),
+            posterURL: (posterUrlPreview ?? posterUrl).flatMap(URL.init(string:))
         )
     }
 }
