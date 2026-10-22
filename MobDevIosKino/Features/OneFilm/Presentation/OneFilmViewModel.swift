@@ -40,15 +40,22 @@ final class OneFilmViewModel: ObservableObject {
         await fetch()
     }
     
+    
     private func fetch() async {
         state = .loading
+
         do {
             let filmInfo = try await getOneFilm.getFilm(filmId: filmId)
-            
+
             state = .loaded(filmInfo)
-            
+
+        } catch let error as NetworkError {
+            // сетевые ошибки в понятные сообщения
+            state = .error(error.userMessage)
+
         } catch {
-            state = .error(error.localizedDescription)
+            // Остальные непредвиденные ошибки
+            state = .error("Что-то пошло не так")
         }
     }
 }

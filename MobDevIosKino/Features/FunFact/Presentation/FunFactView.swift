@@ -44,6 +44,10 @@ struct FunFactView: View {
             
         case .error(let message):
             VStack(spacing: 16) {
+                Image(systemName: "exclamationmark.triangle")
+                    .font(.largeTitle)
+                    .foregroundStyle(.orange)
+                
                 Text(message)
                     .multilineTextAlignment(.center)
                 
@@ -52,9 +56,9 @@ struct FunFactView: View {
                         await viewModel.retry()
                     }
                 }
+                .buttonStyle(.borderedProminent)
             }
-            .padding(.horizontal, 40)
+            .padding()
         }
     }
 }
-

@@ -1,11 +1,14 @@
 import Foundation
 
+/// Формирование URL
 enum Endpoint {
+    // описание доступных эндпоинтов для запросов
     case films(type: String?, ratingFrom: Double?, page: Int)
     case filmFacts(id: Int)
     case exactFilm(id: Int)
     case searchFilms(keyword: String, page: Int)
 
+    // вычисляемое свойство
     var path: String {
         switch self {
         case .films: return "/api/v2.2/films"
@@ -32,7 +35,7 @@ enum Endpoint {
             ]
 
         default:
-            return []
+            return [] // для остальных эндпоинтов query-параметры не нужны.
         }
     }
 
@@ -45,6 +48,7 @@ enum Endpoint {
     }
 }
 
+// контракт сетевого сервиса
 protocol NetworkService {
     func request<T: Decodable>(endpoint : Endpoint)
     async throws -> T
