@@ -29,7 +29,7 @@ struct FilmListView: View {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button { onOpenSearch() } label: {
                     Image(systemName: "magnifyingglass")
-                }
+                }.accessibilityIdentifier("filmList.search")
 
                 Button {
                     Task { await viewModel.forceReload() }
@@ -150,6 +150,7 @@ struct FilmListView: View {
                         FilmListOneElemView(film: film)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityIdentifier("filmList.film.\(film.id)")
                 }
             }
             .padding()

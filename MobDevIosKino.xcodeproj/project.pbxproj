@@ -11,6 +11,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C4BF8589308A834C00F15A84 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 000000000000000000000000 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 000000000000000100000000;
+			remoteInfo = MobDevIosKino;
+		};
 		CED33CC5308A56A600986D2F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 000000000000000000000000 /* Project object */;
@@ -22,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* MobDevIosKino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobDevIosKino.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4BF8585308A834C00F15A84 /* MobDevIosKinoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobDevIosKinoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4C6B1CA306565B100ED4479 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		CED33CC1308A56A600986D2F /* MobDevIosKinoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobDevIosKinoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -30,31 +38,24 @@
 		CE0B30BB3074273E0037A021 /* Exceptions for "MobDevIosKino" folder in "MobDevIosKino" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Core/Utils/Secrets.plist,
 				Info.plist,
 			);
 			target = 000000000000000100000000 /* MobDevIosKino */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		CE1DF6913081383C006977A2 /* Exceptions for "MobDevIosKino" folder in "Compile Sources" phase from "MobDevIosKino" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 000000000000000120000000 /* Sources */;
-			membershipExceptions = (
-				Core/Utils/Secrets.plist,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		000000000000000000000010 /* MobDevIosKino */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				CE0B30BB3074273E0037A021 /* Exceptions for "MobDevIosKino" folder in "MobDevIosKino" target */,
-				CE1DF6913081383C006977A2 /* Exceptions for "MobDevIosKino" folder in "Compile Sources" phase from "MobDevIosKino" target */,
 			);
 			path = MobDevIosKino;
+			sourceTree = "<group>";
+		};
+		C4BF8586308A834C00F15A84 /* MobDevIosKinoUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MobDevIosKinoUITests;
 			sourceTree = "<group>";
 		};
 		CED33CC2308A56A600986D2F /* MobDevIosKinoTests */ = {
@@ -68,6 +69,13 @@
 		000000000000000130000000 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4BF8582308A834C00F15A84 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,6 +96,7 @@
 				C4C6B1CA306565B100ED4479 /* .gitignore */,
 				000000000000000000000010 /* MobDevIosKino */,
 				CED33CC2308A56A600986D2F /* MobDevIosKinoTests */,
+				C4BF8586308A834C00F15A84 /* MobDevIosKinoUITests */,
 				000000000000000000000020 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -97,6 +106,7 @@
 			children = (
 				000000000000000000000120 /* MobDevIosKino.app */,
 				CED33CC1308A56A600986D2F /* MobDevIosKinoTests.xctest */,
+				C4BF8585308A834C00F15A84 /* MobDevIosKinoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,6 +133,29 @@
 			productName = MyApp;
 			productReference = 000000000000000000000120 /* MobDevIosKino.app */;
 			productType = "com.apple.product-type.application";
+		};
+		C4BF8584308A834C00F15A84 /* MobDevIosKinoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4BF858B308A834C00F15A84 /* Build configuration list for PBXNativeTarget "MobDevIosKinoUITests" */;
+			buildPhases = (
+				C4BF8581308A834C00F15A84 /* Sources */,
+				C4BF8582308A834C00F15A84 /* Frameworks */,
+				C4BF8583308A834C00F15A84 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C4BF858A308A834C00F15A84 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C4BF8586308A834C00F15A84 /* MobDevIosKinoUITests */,
+			);
+			name = MobDevIosKinoUITests;
+			packageProductDependencies = (
+			);
+			productName = MobDevIosKinoUITests;
+			productReference = C4BF8585308A834C00F15A84 /* MobDevIosKinoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		CED33CC0308A56A600986D2F /* MobDevIosKinoTests */ = {
 			isa = PBXNativeTarget;
@@ -154,11 +187,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1600;
+				LastSwiftUpdateCheck = 2700;
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					000000000000000100000000 = {
 						CreatedOnToolsVersion = 26.3;
+					};
+					C4BF8584308A834C00F15A84 = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = 000000000000000100000000;
 					};
 					CED33CC0308A56A600986D2F = {
 						CreatedOnToolsVersion = 16.0;
@@ -182,6 +219,7 @@
 			targets = (
 				000000000000000100000000 /* MobDevIosKino */,
 				CED33CC0308A56A600986D2F /* MobDevIosKinoTests */,
+				C4BF8584308A834C00F15A84 /* MobDevIosKinoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -192,6 +230,13 @@
 			buildActionMask = 0;
 			files = (
 				C4C6B1CB306565C300ED4479 /* .gitignore in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4BF8583308A834C00F15A84 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,6 +257,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C4BF8581308A834C00F15A84 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CED33CBD308A56A600986D2F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -222,6 +274,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C4BF858A308A834C00F15A84 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 000000000000000100000000 /* MobDevIosKino */;
+			targetProxy = C4BF8589308A834C00F15A84 /* PBXContainerItemProxy */;
+		};
 		CED33CC6308A56A600986D2F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 000000000000000100000000 /* MobDevIosKino */;
@@ -446,6 +503,47 @@
 			};
 			name = Release;
 		};
+		C4BF858C308A834C00F15A84 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = yourcompany.MobDevIosKinoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MobDevIosKino;
+			};
+			name = Debug;
+		};
+		C4BF858D308A834C00F15A84 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = yourcompany.MobDevIosKinoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MobDevIosKino;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		CED33CC7308A56A600986D2F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -502,6 +600,15 @@
 			buildConfigurations = (
 				000000000000000111000000 /* Debug */,
 				000000000000000112000000 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4BF858B308A834C00F15A84 /* Build configuration list for PBXNativeTarget "MobDevIosKinoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4BF858C308A834C00F15A84 /* Debug */,
+				C4BF858D308A834C00F15A84 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -11,6 +11,7 @@ struct SearchView: View {
         content
             .searchable(text: $viewModel.query, prompt: "Поиск фильмов")
             .navigationTitle("Поиск")
+            .accessibilityIdentifier("search.screen")
     }
 
     @ViewBuilder
@@ -38,6 +39,7 @@ struct SearchView: View {
         List {
             ForEach(films) { film in
                 SearchFilmRowView(film: film)
+                    .accessibilityIdentifier("searchFilm.card.\(film.id)")
                     .onAppear {
                         viewModel.loadNextPageIfNeeded(currentItem: film)
                     }

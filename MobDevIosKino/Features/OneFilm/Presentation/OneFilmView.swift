@@ -29,6 +29,7 @@ struct OneFilmView: View {
 
             content
         }
+        .accessibilityIdentifier("filmDetail.screen")
         .task {
             await viewModel.load()
         }
